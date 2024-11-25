@@ -11,16 +11,16 @@ export default async function handler(req, res) {
     let browser = null;
 
     try {
-        // Launch the browser
+        // Launch the browser with chrome-aws-lambda's executablePath
         browser = await puppeteer.launch({
-            executablePath: await chrome.executablePath,
-            args: chrome.args,
-            defaultViewport: chrome.defaultViewport,
-            headless: chrome.headless,
+            executablePath: await chrome.executablePath,  // This is the path to the Chromium binary
+            args: chrome.args,  // Arguments required to run the headless browser
+            defaultViewport: chrome.defaultViewport,  // Default viewport configuration
+            headless: chrome.headless,  // Headless mode (no GUI)
         });
 
         const page = await browser.newPage();
-        await page.goto(url, { waitUntil: 'networkidle2' }); // Fully render the page
+        await page.goto(url, { waitUntil: 'networkidle2' });  // Fully render the page
 
         // Take a screenshot
         const screenshot = await page.screenshot({ fullPage: true });
